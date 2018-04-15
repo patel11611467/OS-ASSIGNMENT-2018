@@ -1,0 +1,55 @@
+# include<pthread.h>
+# include<stdio.h>
+# include<stdlib.h>
+int bt[10],S[10],wt[10],turnaroundtime[10],at[10];
+int i,j,n,pos,temp;
+void *input();
+int main()
+{
+printf("-------------WELCOME TO GIFT SHOP ----------\n\n");
+pthread_t t1;
+pthread_create(&t1,NULL,input,NULL);
+pthread_join(t1,NULL);
+return 0;
+}
+
+
+
+void *input()
+{
+	printf("ENTER NUMBER OF GIFTS EACH STUDENT HAVE \n\n");
+	for(i=0;i<10;i++)
+	{
+		printf("\n\tNUMBER OF GIFTS OF S%d : ",i+1);
+		scanf("\n%d",&bt[i]);
+		S[i]=i+1;
+	}
+
+
+	for(i=0;i<10;i++)
+	{
+		pos=i;
+		for(j=i+1;j<10;j++)
+		{
+			if(bt[j]>bt[pos])
+   			pos=j;
+		}
+		temp=bt[i];
+		bt[i]=bt[pos];
+		bt[pos]=temp;
+
+		temp=S[i];
+		S[i]=S[pos];
+		S[pos]=temp;
+	}
+	printf("\n\n**********Order of billed Students****************\n\n");
+	printf(" ________________________________________________");
+	printf("\n|Student\tGIFTS \tArrival time            |");
+        printf("\n|_______________________________________________|");
+	for(i=0;i<10;i++)
+	{
+		printf("\n|S[%d]\t\t%d\t\t%d\t        |",S[i],bt[i],at[i]);
+	}
+        printf("\n|_______________________________________________|\n\n");
+	
+}
